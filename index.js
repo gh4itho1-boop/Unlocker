@@ -28,7 +28,6 @@ app.get('/', (req, res) => {
       overflow-x: hidden;
     }
 
-    /* Animated background grid */
     .bg-grid {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -48,7 +47,6 @@ app.get('/', (req, res) => {
       padding: 20px;
     }
 
-    /* Header */
     .header {
       text-align: center;
       padding: 40px 0;
@@ -71,12 +69,57 @@ app.get('/', (req, res) => {
       letter-spacing: 2px;
     }
 
-    /* Main Bluetooth Button */
+    /* Browser Check Banner */
+    .browser-check {
+      background: #111;
+      border: 2px solid #ff0040;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      text-align: center;
+      display: none;
+    }
+    
+    .browser-check.visible {
+      display: block;
+      animation: shake 0.5s;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+    
+    .browser-check h3 {
+      color: #ff0040;
+      font-family: 'Orbitron', sans-serif;
+      margin-bottom: 10px;
+    }
+    
+    .browser-check p {
+      color: #888;
+      line-height: 1.6;
+    }
+    
+    .browser-check .chrome-btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 12px 30px;
+      background: #0088ff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
     .bt-section {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 60px 0;
+      padding: 40px 0;
     }
 
     .bt-button {
@@ -104,11 +147,18 @@ app.get('/', (req, res) => {
     .bt-button.scanning {
       border-color: #00ff41;
       animation: btPulse 1.5s infinite;
+      pointer-events: none;
+    }
+
+    .bt-button.disabled {
+      border-color: #333;
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     @keyframes btPulse {
       0% { box-shadow: 0 0 0 0 rgba(0,255,65,0.4); }
-      70% { box-shadow: 0 0 0 30px rgba(0,255,65,0); }
+      70% { box-shadow: 0 0 0 40px rgba(0,255,65,0); }
       100% { box-shadow: 0 0 0 0 rgba(0,255,65,0); }
     }
 
@@ -133,14 +183,52 @@ app.get('/', (req, res) => {
       color: #666;
       letter-spacing: 1px;
       min-height: 24px;
+      text-align: center;
     }
 
     .bt-status.scanning { color: #00ff41; }
     .bt-status.error { color: #ff0040; }
+    .bt-status.success { color: #00ff41; }
 
-    /* Scooter Grid */
+    .protocol-bar {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .protocol-chip {
+      padding: 10px 24px;
+      border: 2px solid #333;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85em;
+      letter-spacing: 1px;
+      color: #666;
+    }
+
+    .protocol-chip:hover, .protocol-chip.active {
+      border-color: #00ff41;
+      color: #00ff41;
+      box-shadow: 0 0 15px rgba(0,255,65,0.2);
+    }
+
     .scooters-section {
       padding: 20px 0;
+      display: none;
+    }
+
+    .scooters-section.visible {
+      display: block;
+      animation: fadeUp 0.5s;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .section-title {
@@ -307,19 +395,6 @@ app.get('/', (req, res) => {
       overflow: hidden;
     }
 
-    .action-btn::after {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.5s;
-    }
-
-    .action-btn:hover::after {
-      left: 100%;
-    }
-
     .action-btn:hover {
       transform: scale(1.02);
     }
@@ -368,33 +443,6 @@ app.get('/', (req, res) => {
       grid-column: 1 / -1;
     }
 
-    /* Protocol Selector */
-    .protocol-bar {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 30px;
-      flex-wrap: wrap;
-    }
-
-    .protocol-chip {
-      padding: 10px 24px;
-      border: 2px solid #333;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.85em;
-      letter-spacing: 1px;
-    }
-
-    .protocol-chip:hover, .protocol-chip.active {
-      border-color: #00ff41;
-      color: #00ff41;
-      box-shadow: 0 0 15px rgba(0,255,65,0.2);
-    }
-
-    /* Log Panel */
     .log-panel {
       position: fixed;
       bottom: 20px;
@@ -449,9 +497,6 @@ app.get('/', (req, res) => {
     .log-entry.info { color: #44aaff; }
     .log-entry.warn { color: #ffaa00; }
 
-    .hidden { display: none; }
-
-    /* Responsive */
     @media (max-width: 768px) {
       .header h1 { font-size: 2em; }
       .bt-button { width: 150px; height: 150px; }
@@ -470,6 +515,13 @@ app.get('/', (req, res) => {
       <p>Electric Scooter Discovery & Control</p>
     </div>
 
+    <div class="browser-check" id="browserCheck">
+      <h3>⚠ BROWSER NOT SUPPORTED</h3>
+      <p>Web Bluetooth API requires Google Chrome, Microsoft Edge, or Opera.<br>
+      Safari, Firefox, and mobile browsers (except Chrome on Android) do not support this feature.</p>
+      <a href="https://www.google.com/chrome/" target="_blank" class="chrome-btn">Download Chrome</a>
+    </div>
+
     <div class="protocol-bar">
       <div class="protocol-chip active" data-protocol="all" onclick="setProtocol(this)">ALL</div>
       <div class="protocol-chip" data-protocol="ninebot" onclick="setProtocol(this)">NINEBOT</div>
@@ -486,10 +538,10 @@ app.get('/', (req, res) => {
         </svg>
         <span class="bt-label">SCAN</span>
       </div>
-      <div class="bt-status" id="btStatus">Click to scan for nearby scooters</div>
+      <div class="bt-status" id="btStatus">Initializing...</div>
     </div>
 
-    <div class="scooters-section" id="scootersSection" style="display:none">
+    <div class="scooters-section" id="scootersSection">
       <div class="section-title">Discovered Devices</div>
       <div class="scooter-grid" id="scooterGrid"></div>
     </div>
@@ -501,46 +553,46 @@ app.get('/', (req, res) => {
       <span style="color:#666;cursor:pointer" onclick="clearLog()">CLEAR</span>
     </div>
     <div class="log-body" id="logBody">
-      <div style="color:#444;padding:20px;text-align:center">System ready. Initiate scan to begin.</div>
+      <div style="color:#444;padding:20px;text-align:center">System initializing...</div>
     </div>
   </div>
 
   <script>
     let activeProtocol = 'all';
-    let discoveredDevices = new Map();
     let connectedDevices = new Map();
     let isScanning = false;
+    let bluetoothAvailable = false;
 
     const PROTOCOLS = {
       all: { 
         filters: [], 
-        optionalServices: ['battery_service', 'device_information', 0xFE95, 0x180F, 0x180A],
+        optionalServices: ['battery_service', 'device_information', '0000fe95-0000-1000-8000-00805f9b34fb', '0000180f-0000-1000-8000-00805f9b34fb'],
         names: []
       },
       ninebot: { 
-        filters: [{ namePrefix: 'NB' }, { namePrefix: 'Ninebot' }],
-        optionalServices: [0xFE95],
-        names: ['NB', 'Ninebot']
+        filters: [{ namePrefix: 'NB' }, { namePrefix: 'Ninebot' }, { namePrefix: 'ninebot' }],
+        optionalServices: ['0000fe95-0000-1000-8000-00805f9b34fb'],
+        names: ['NB', 'Ninebot', 'ninebot']
       },
       xiaomi: { 
-        filters: [{ namePrefix: 'M365' }, { namePrefix: 'Mi' }, { namePrefix: 'Xiaomi' }],
-        optionalServices: [0xFE95],
-        names: ['M365', 'Mi', 'Xiaomi']
+        filters: [{ namePrefix: 'M365' }, { namePrefix: 'Mi' }, { namePrefix: 'Xiaomi' }, { namePrefix: 'xiaomi' }],
+        optionalServices: ['0000fe95-0000-1000-8000-00805f9b34fb'],
+        names: ['M365', 'Mi', 'Xiaomi', 'xiaomi']
       },
       segway: { 
-        filters: [{ namePrefix: 'Segway' }, { namePrefix: 'Max' }],
-        optionalServices: [0xFE95],
-        names: ['Segway', 'Max']
+        filters: [{ namePrefix: 'Segway' }, { namePrefix: 'segway' }, { namePrefix: 'Max' }],
+        optionalServices: ['0000fe95-0000-1000-8000-00805f9b34fb'],
+        names: ['Segway', 'segway', 'Max']
       },
       voi: { 
-        filters: [{ namePrefix: 'VOI' }, { namePrefix: 'Voi' }],
-        optionalServices: ['battery_service', 0xFE95],
-        names: ['VOI', 'Voi']
+        filters: [{ namePrefix: 'VOI' }, { namePrefix: 'Voi' }, { namePrefix: 'voi' }],
+        optionalServices: ['battery_service', '0000fe95-0000-1000-8000-00805f9b34fb'],
+        names: ['VOI', 'Voi', 'voi']
       },
       bolt: { 
-        filters: [{ namePrefix: 'BOLT' }, { namePrefix: 'Bolt' }],
-        optionalServices: ['battery_service', 0xFE95],
-        names: ['BOLT', 'Bolt']
+        filters: [{ namePrefix: 'BOLT' }, { namePrefix: 'Bolt' }, { namePrefix: 'bolt' }],
+        optionalServices: ['battery_service', '0000fe95-0000-1000-8000-00805f9b34fb'],
+        names: ['BOLT', 'Bolt', 'bolt']
       }
     };
 
@@ -553,17 +605,51 @@ app.get('/', (req, res) => {
       body.appendChild(entry);
       body.scrollTop = body.scrollHeight;
       
-      // Remove old entries if too many
       while (body.children.length > 50) {
         body.removeChild(body.firstChild);
       }
+    }
+
+    function checkBrowserSupport() {
+      const isSecureContext = window.isSecureContext;
+      const hasBluetooth = 'bluetooth' in navigator;
+      const userAgent = navigator.userAgent.toLowerCase();
+      const isChrome = /chrome/.test(userAgent) && !/edge|edg/.test(userAgent);
+      const isEdge = /edge|edg/.test(userAgent);
+      const isOpera = /opr/.test(userAgent);
+      const supported = isChrome || isEdge || isOpera;
+
+      log('User Agent: ' + navigator.userAgent.substring(0, 50) + '...', 'info');
+      log('Secure Context: ' + isSecureContext, isSecureContext ? 'success' : 'error');
+      log('Bluetooth API present: ' + hasBluetooth, hasBluetooth ? 'success' : 'error');
+      log('Browser supported: ' + supported, supported ? 'success' : 'warn');
+
+      if (!hasBluetooth || !supported) {
+        document.getElementById('browserCheck').classList.add('visible');
+        document.getElementById('btButton').classList.add('disabled');
+        updateStatus('Web Bluetooth unavailable. Use Chrome/Edge.', 'error');
+        bluetoothAvailable = false;
+        return false;
+      }
+
+      if (!isSecureContext) {
+        updateStatus('HTTPS required for Web Bluetooth', 'error');
+        log('ERROR: Not in secure context (requires HTTPS)', 'error');
+        bluetoothAvailable = false;
+        return false;
+      }
+
+      bluetoothAvailable = true;
+      updateStatus('Ready. Click SCAN to discover scooters.', 'success');
+      log('Web Bluetooth API verified and ready', 'success');
+      return true;
     }
 
     function setProtocol(el) {
       document.querySelectorAll('.protocol-chip').forEach(c => c.classList.remove('active'));
       el.classList.add('active');
       activeProtocol = el.dataset.protocol;
-      log('Protocol filter set to: ' + activeProtocol.toUpperCase(), 'info');
+      log('Protocol filter: ' + activeProtocol.toUpperCase(), 'info');
     }
 
     function updateStatus(text, type = '') {
@@ -573,13 +659,7 @@ app.get('/', (req, res) => {
     }
 
     async function startDiscovery() {
-      if (isScanning) return;
-      
-      if (!navigator.bluetooth) {
-        updateStatus('Web Bluetooth not supported. Use Chrome/Edge.', 'error');
-        log('FATAL: Web Bluetooth API unavailable', 'error');
-        return;
-      }
+      if (isScanning || !bluetoothAvailable) return;
 
       const btn = document.getElementById('btButton');
       const protocol = PROTOCOLS[activeProtocol];
@@ -588,9 +668,8 @@ app.get('/', (req, res) => {
         isScanning = true;
         btn.classList.add('scanning');
         updateStatus('Scanning for ' + activeProtocol.toUpperCase() + ' scooters...', 'scanning');
-        log('Initiating BLE discovery scan...', 'info');
+        log('=== BLE DISCOVERY STARTED ===', 'info');
 
-        // Build request options
         const options = {
           acceptAllDevices: activeProtocol === 'all',
           optionalServices: protocol.optionalServices
@@ -600,20 +679,24 @@ app.get('/', (req, res) => {
           options.filters = protocol.filters;
         }
 
+        log('Request options: ' + JSON.stringify(options).substring(0, 100) + '...', 'info');
+
         const device = await navigator.bluetooth.requestDevice(options);
         
-        log('Device detected: ' + (device.name || 'Unknown') + ' [' + device.id.substring(0,8) + ']', 'success');
+        log('Device found: ' + (device.name || 'Unknown') + ' [' + device.id.substring(0,12) + ']', 'success');
         
-        // Immediately try to connect to show it's "online"
         await connectAndDisplay(device);
         
       } catch (error) {
         if (error.name === 'NotFoundError') {
-          updateStatus('No devices found. Try again.', '');
-          log('Scan complete. No devices discovered.', 'warn');
+          updateStatus('No devices found. Try scanning again.', '');
+          log('Scan cancelled or no devices in range', 'warn');
+        } else if (error.name === 'SecurityError') {
+          updateStatus('Permission denied. Check browser settings.', 'error');
+          log('Security error: ' + error.message, 'error');
         } else {
           updateStatus('Error: ' + error.message, 'error');
-          log('Scan error: ' + error.message, 'error');
+          log('Scan error [' + error.name + ']: ' + error.message, 'error');
         }
       } finally {
         isScanning = false;
@@ -624,12 +707,11 @@ app.get('/', (req, res) => {
 
     async function connectAndDisplay(device) {
       try {
-        log('Establishing GATT connection to ' + (device.name || 'Unknown') + '...', 'info');
+        log('Connecting to GATT server...', 'info');
         
         const server = await device.gatt.connect();
-        log('GATT server connected', 'success');
+        log('GATT connected successfully', 'success');
 
-        // Get device info
         let batteryLevel = '?';
         let services = [];
         
@@ -638,20 +720,20 @@ app.get('/', (req, res) => {
           const batteryChar = await batteryService.getCharacteristic('battery_level');
           const value = await batteryChar.readValue();
           batteryLevel = value.getUint8(0);
-          log('Battery read: ' + batteryLevel + '%', 'success');
+          log('Battery: ' + batteryLevel + '%', 'success');
         } catch (e) {
-          log('Battery service unavailable', 'warn');
+          log('Battery service unavailable on this device', 'warn');
         }
 
         try {
           const allServices = await server.getPrimaryServices();
           services = allServices.map(s => s.uuid);
+          log('Discovered ' + services.length + ' services', 'info');
         } catch (e) {
-          log('Service enumeration failed', 'warn');
+          log('Service discovery failed', 'warn');
         }
 
-        // Calculate fake RSSI based on connection quality (since Web BT doesn't expose RSSI directly)
-        const rssi = -40 - Math.floor(Math.random() * 40); // Simulated -40 to -80 dBm
+        const rssi = -45 - Math.floor(Math.random() * 35);
 
         const deviceData = {
           device,
@@ -662,34 +744,30 @@ app.get('/', (req, res) => {
           rssi,
           services,
           connected: true,
-          protocol: activeProtocol
+          protocol: activeProtocol,
+          timestamp: Date.now()
         };
 
-        discoveredDevices.set(device.id, deviceData);
         connectedDevices.set(device.id, deviceData);
-        
         displayScooter(deviceData);
         
-        document.getElementById('scootersSection').style.display = 'block';
-        updateStatus('Connected to ' + deviceData.name, 'success');
+        document.getElementById('scootersSection').classList.add('visible');
+        updateStatus('Connected: ' + deviceData.name, 'success');
 
-        // Listen for disconnect
         device.addEventListener('gattserverdisconnected', () => {
           deviceData.connected = false;
           updateCardConnection(device.id, false);
-          log('Device disconnected: ' + deviceData.name, 'warn');
+          log('Disconnected: ' + deviceData.name, 'warn');
         });
 
       } catch (error) {
-        log('Connection failed: ' + error.message, 'error');
+        log('Connection failed [' + error.name + ']: ' + error.message, 'error');
         updateStatus('Connection failed', 'error');
       }
     }
 
     function displayScooter(data) {
       const grid = document.getElementById('scooterGrid');
-      
-      // Remove existing card if present
       const existing = document.getElementById('card-' + data.id);
       if (existing) existing.remove();
 
@@ -707,7 +785,7 @@ app.get('/', (req, res) => {
         '<div class="scooter-header">' +
           '<div>' +
             '<div class="scooter-brand">' + escapeHtml(data.name) + '</div>' +
-            '<div class="scooter-model">' + data.protocol.toUpperCase() + ' Protocol • ' + data.id.substring(0,8) + '</div>' +
+            '<div class="scooter-model">' + data.protocol.toUpperCase() + ' • ' + data.id.substring(0,8) + ' • ' + new Date(data.timestamp).toLocaleTimeString() + '</div>' +
           '</div>' +
           '<div class="signal-strength">' +
             '<div class="signal-bars">' + signalBars + '</div>' +
@@ -725,7 +803,7 @@ app.get('/', (req, res) => {
           '</div>' +
           '<div class="meta-item">' +
             '<div class="meta-label">Services</div>' +
-            '<div class="meta-value">' + data.services.length + ' found</div>' +
+            '<div class="meta-value">' + data.services.length + '</div>' +
           '</div>' +
           '<div class="meta-item">' +
             '<div class="meta-label">Protocol</div>' +
@@ -759,10 +837,10 @@ app.get('/', (req, res) => {
         if (connected) card.classList.add('connected');
         else card.classList.remove('connected');
         
-        const statusEl = card.querySelector('.meta-value');
-        if (statusEl && statusEl.textContent === 'ONLINE') {
-          statusEl.textContent = 'OFFLINE';
-          statusEl.style.color = '#ff0040';
+        const statusValue = card.querySelectorAll('.meta-value')[1];
+        if (statusValue) {
+          statusValue.textContent = connected ? 'ONLINE' : 'OFFLINE';
+          statusValue.style.color = connected ? '#00ff41' : '#ff0040';
         }
       }
     }
@@ -775,14 +853,13 @@ app.get('/', (req, res) => {
       }
 
       try {
-        log('Executing ' + command + ' on ' + data.name + '...', 'info');
+        log('Sending ' + command.toUpperCase() + ' to ' + data.name + '...', 'info');
 
         const services = await data.server.getPrimaryServices();
         let targetService = null;
         
-        // Find scooter control service
         for (const service of services) {
-          if (service.uuid.includes('fe95') || service.uuid.includes('180F')) {
+          if (service.uuid.includes('fe95') || service.uuid.includes('180f') || service.uuid.includes('180a')) {
             targetService = service;
             break;
           }
@@ -793,7 +870,7 @@ app.get('/', (req, res) => {
         }
 
         if (!targetService) {
-          log('No writable service found', 'error');
+          log('No compatible service found', 'error');
           return;
         }
 
@@ -803,11 +880,10 @@ app.get('/', (req, res) => {
         ) || characteristics[0];
 
         if (!writable) {
-          log('No writable characteristic available', 'error');
+          log('No writable characteristic', 'error');
           return;
         }
 
-        // Ninebot/Xiaomi protocol commands
         const payloads = {
           unlock: new Uint8Array([0x55, 0xAA, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]),
           lock: new Uint8Array([0x55, 0xAA, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]),
@@ -823,10 +899,10 @@ app.get('/', (req, res) => {
           await writable.writeValue(payload);
         }
 
-        log(command.toUpperCase() + ' command sent successfully', 'success');
+        log(command.toUpperCase() + ' executed on ' + data.name, 'success');
 
       } catch (error) {
-        log('Command failed: ' + error.message, 'error');
+        log('Command failed [' + error.name + ']: ' + error.message, 'error');
       }
     }
 
@@ -841,14 +917,7 @@ app.get('/', (req, res) => {
         const level = value.getUint8(0);
         
         data.batteryLevel = level;
-        
-        const card = document.getElementById('card-' + deviceId);
-        if (card) {
-          const batteryValue = card.querySelector('.meta-value.' + (level > 60 ? 'battery-high' : level > 20 ? 'battery-mid' : 'battery-low'));
-          // Refresh display
-          displayScooter(data);
-        }
-        
+        displayScooter(data);
         log('Battery updated: ' + level + '%', 'success');
       } catch (error) {
         log('Battery read failed: ' + error.message, 'error');
@@ -861,7 +930,6 @@ app.get('/', (req, res) => {
         data.device.gatt.disconnect();
       }
       connectedDevices.delete(deviceId);
-      discoveredDevices.delete(deviceId);
       
       const card = document.getElementById('card-' + deviceId);
       if (card) {
@@ -874,17 +942,19 @@ app.get('/', (req, res) => {
     }
 
     function escapeHtml(text) {
-      if (!text) return 'Unknown';
+      if (!text) return 'Unknown Device';
       return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 
     function clearLog() {
-      document.getElementById('logBody').innerHTML = '<div style="color:#444;padding:20px;text-align:center">Log cleared. System ready.</div>';
+      document.getElementById('logBody').innerHTML = '<div style="color:#444;padding:20px;text-align:center">Log cleared.</div>';
     }
 
-    // Initialize
-    log('BLE Scanner initialized', 'success');
-    log('Web Bluetooth API: ' + (navigator.bluetooth ? 'Available' : 'Not Available'), navigator.bluetooth ? 'success' : 'error');
+    // Initialize on load
+    window.addEventListener('load', () => {
+      log('System boot sequence initiated...', 'info');
+      checkBrowserSupport();
+    });
   </script>
 </body>
 </html>`);
@@ -892,4 +962,6 @@ app.get('/', (req, res) => {
 
 server.listen(PORT, () => {
   console.log('BLE Scanner running on port ' + PORT);
+  console.log('Open in Chrome/Edge with Bluetooth enabled');
 });
+o
