@@ -1,13 +1,17 @@
 {
-  "name": "escooter-ble-controller",
+  "name": "escooter-ble-unlocker",
   "version": "1.0.0",
+  "description": "BLE controller for electric scooters",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
     "express": "^4.18.2",
-    "noble": "^1.9.2",
-    "ws": "^8.13.0"
+    "@abandonware/noble": "^1.9.2-23",
+    "ws": "^8.14.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
